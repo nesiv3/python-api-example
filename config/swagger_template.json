@@ -1,0 +1,32 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API Documentation",
+    "version": "1.0",
+    "description": "Documentación de la API para el proyecto Python API Example"
+  },
+  "definitions": {
+    "Product": {
+      "type": "object",
+      "properties": {
+        "id": {"type": "integer", "description": "ID del producto"},
+        "cantidad": {"type": "integer", "description": "Cantidad del producto"}
+      },
+      "required": ["id", "cantidad"]
+    },
+    "OrderRequest": {
+      "type": "object",
+      "properties": {
+        "userId": {"type": "integer", "description": "ID del usuario que realiza el pedido"},
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          },
+          "description": "Arreglo de productos solicitados"
+        }
+      },
+      "required": ["userId", "products"]
+    }
+  }
+}

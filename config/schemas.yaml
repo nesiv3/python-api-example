@@ -1,0 +1,20 @@
+openapi: 3.0.0
+info:
+  title: API Documentation
+  version: "1.0"
+  description: Documentación de la API para el proyecto Python API Example
+paths: {}
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID del producto
+        cantidad:
+          type: integer
+          description: Cantidad del producto
+      required:
+        - id
+        - cantidad
