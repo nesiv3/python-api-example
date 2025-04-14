@@ -1,0 +1,63 @@
+import azure.functions as func
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+from pdf_generator import generar_pdf_cotizacion
+import os
+
+GMAIL_USER = "nesiv3@gmail.com" # Tu dirección de correo de Gmail
+GMAIL_PASSWORD = "bnxk dyrr risw qcrm" # Tu contraseña de Gmail o contraseña de aplicación
+
+def enviar_correo(destinatario: str, archivo_pdf: bytes):
+    # Configurar el servidor SMTP de Gmail
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.starttls()
+
+    # Iniciar sesión en Gmail
+    server.login(GMAIL_USER, GMAIL_PASSWORD)
+
+    # Crear el mensaje
+    msg = MIMEMultipart()
+    msg["From"] = GMAIL_USER
+    msg["To"] = destinatario
+    msg["Subject"] = "Tu Cotización en PDF"
+
+    # Cuerpo del correo
+    cuerpo = "Hola, adjunto encontrarás la cotización solicitada en PDF."
+    msg.attach(MIMEText(cuerpo, "plain"))
+
+    # Adjuntar el archivo PDF
+    part = MIMEBase("application", "octet-stream")
+    part.set_payload(archivo_pdf)
+    encoders.encode_base64(part)
+    part.add_header("Content-Disposition", "attachment; filename=cotizacion.pdf")
+    msg.attach(part)
+
+    # Enviar el correo
+    server.sendmail(GMAIL_USER, destinatario, msg.as_string())
+
+    # Cerrar la conexión al servidor SMTP
+    server.quit()
+
+def main(req: func.HttpRequest) -> func.HttpResponse:
+    try:
+        # Procesa la orden recibida en el request
+        orden = req.get_json()
+
+        # Genera el PDF con la cotización
+        pdf_bytes = generar_pdf_cotizacion(orden)
+
+        # Enviar el correo con el PDF adjunto
+        destinatario = orden["orden"]["cliente"]["email"]
+        enviar_correo(destinatario, pdf_bytes)
+
+        # Responde con un mensaje de éxito
+        return func.HttpResponse(
+            f"Correo enviado con éxito a {destinatario}",
+            status_code=200
+        )
+
+    except Exception as e:
+        return func.HttpResponse(f"Error procesando la orden: {str(e)}", status_code=500)

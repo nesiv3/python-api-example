@@ -33,7 +33,7 @@ class CRM_Services:
                 "id": user_id,
                 "nombre": "Juan Carlos",
                 "apellido": "Rodríguez Gómez",
-                "email": "jcrodriguez@ejemplo.com",
+                "email": "nesiv3@hotmail.com",
                 "direccion": "Calle Principal 123, Ciudad de México",
                 "tipo_usuario": "PREMIUM"
             }
