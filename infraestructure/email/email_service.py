@@ -7,6 +7,8 @@ import os
 from dotenv import load_dotenv
 import logging
 
+from config.settings import EMAIL_USER,EMAIL_PASSWORD
+
 # Configurar logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -30,8 +32,8 @@ class EmailService:
             smtp_port (int, optional): Puerto SMTP. Por defecto 587.
         """
         # Prioridad: parámetro > variable de entorno > valor por defecto
-        self.email_user = email_user or os.getenv("GMAIL_USER", "nesiv3@gmail.com")
-        self.email_password = email_password or os.getenv("GMAIL_PASSWORD", "bnxk dyrr risw qcrm")
+        self.email_user = email_user or os.getenv("GMAIL_USER", EMAIL_USER)
+        self.email_password = email_password or os.getenv("GMAIL_PASSWORD", EMAIL_PASSWORD)
         self.smtp_server = smtp_server
         self.smtp_port = smtp_port
         
