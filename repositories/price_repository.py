@@ -1,12 +1,14 @@
+from infraestructure.api import CRMServices
+from infraestructure.api.CRMServices import CrmServices
 from infraestructure.openai.pdf_generator import generar_pdf_cotizacion
-from infraestructure.api.CRM_Services import CRM_Services
+
 # Corrected module path and function name
 from infraestructure.email.email_service import EmailService
 from services.products import ProductsServices
 
 products_service = ProductsServices()
 email_service = EmailService()
-crm_services = CRM_Services()  # Ensure CRM_Services is a class and properly imported
+crm_services = CrmServices()  # Ensure CrmServices is correctly instantiated
 # Ensure this is the correct import path
 
 

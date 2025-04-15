@@ -2,7 +2,7 @@ from utils.singleton import singleton
 
 
 @singleton
-class CRM_Services:
+class CrmServices:
     def __init__(self):
         """
         Constructor de la clase CRM_Services.
@@ -39,9 +39,21 @@ class CRM_Services:
             }
 
             return sample_user_data
-        except Exception as e:
-            print(f"Error al obtener datos del usuario: {str(e)}")
+        except KeyError as e:
+            print(f"Error: Clave no encontrada en los datos del usuario: {str(e)}")
             return {
-                "error": "No se pudo obtener la información del usuario",
+                "error": "Clave no encontrada en los datos del usuario",
+                "mensaje": str(e)
+            }
+        except TypeError as e:
+            print(f"Error: Tipo de dato incorrecto: {str(e)}")
+            return {
+                "error": "Tipo de dato incorrecto",
+                "mensaje": str(e)
+            }
+        except Exception as e:
+            print(f"Error inesperado al obtener datos del usuario: {str(e)}")
+            return {
+                "error": "Error inesperado al obtener la información del usuario",
                 "mensaje": str(e)
             }
