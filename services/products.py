@@ -1,8 +1,8 @@
 import requests
 
-from infraestructure.api.ERPServices import ERPServices
+from utils.factory import ServiceFactory
 
-erpServices = ERPServices()
+erp_service = ServiceFactory.get_service("ERP")
 
 
 class ProductsServices:
@@ -27,7 +27,7 @@ class ProductsServices:
             return {"error": "Invalid input: product_ids must be a non-empty list"}
 
         # Get all products first
-        all_products = erpServices.obtain_products()
+        all_products = erp_service.obtain_products()
         print(all_products)
         # If the API call failed, return empty list
         if not all_products:

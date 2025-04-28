@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
 
-from infraestructure.api.ERPServices import ERPServices
+from utils.factory import ServiceFactory
 
 
 class TestERPServices(unittest.TestCase):
@@ -14,7 +14,8 @@ class TestERPServices(unittest.TestCase):
         mock_get.return_value = mock_response
 
         # Instantiate the service and call the method
-        service = ERPServices()
+       
+        service = ServiceFactory.get_service("ERP")
         result = service.obtain_products()
 
         # Assert the result matches the mocked data
@@ -29,7 +30,7 @@ class TestERPServices(unittest.TestCase):
         mock_get.return_value = mock_response
 
         # Instantiate the service and call the method
-        service = ERPServices()
+        service = ServiceFactory.get_service("ERP")
         result = service.obtain_products()
 
         # Assert the result is an empty list

@@ -5,8 +5,17 @@ from repositories.price_repository import PriceRepository
 import json
 
 from services.price import PriceServices  # Si usas JSON
+from services.products import ProductsServices
+from infraestructure.email.email_service import EmailService
+from utils.factory import ServiceFactory
 
-price_repository = PriceRepository()
+# Crear instancias de servicios
+products_service = ProductsServices()
+email_service = EmailService()
+crm_service = ServiceFactory.get_service("CRM")
+
+# Inyectar dependencias al repositorio
+price_repository = PriceRepository(products_service, email_service, crm_service)
 price_service = PriceServices(price_repository)
 
 app = Flask(__name__)
