@@ -1,6 +1,7 @@
 {
     "python.analysis.extraPaths": [
-        "./infraestructure/openai"
+        "./infraestructure/openai",
+        "./services"
     ],
     "python.testing.pytestArgs": [
         "."

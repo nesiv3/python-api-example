@@ -3,6 +3,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+from infraestructure.open_ai.open_ai import OpenAIService
 import os
 from dotenv import load_dotenv
 import logging
@@ -12,7 +13,7 @@ from config.settings import EMAIL_USER,EMAIL_PASSWORD
 # Configurar logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
+openaiservices= OpenAIService()
 # Cargar variables de entorno (si existen)
 load_dotenv()
 
@@ -68,7 +69,7 @@ class EmailService:
             msg["Subject"] = asunto
             
             # Cuerpo del correo
-            msg.attach(MIMEText(cuerpo, "plain"))
+            msg.attach(MIMEText(cuerpo, "html"))
             
             # Adjuntar archivo si se proporciona
             if archivo_adjunto and nombre_archivo:
@@ -108,15 +109,7 @@ class EmailService:
         nombre_cliente = datos_cliente.get("nombre", "Cliente") if datos_cliente else "Cliente"
         
         asunto = f"Tu Cotización - {nombre_cliente}"
-        cuerpo = f"""Hola {nombre_cliente},
-
-Adjunto encontrarás la cotización que solicitaste en formato PDF.
-
-Gracias por tu interés en nuestros servicios.
-
-Saludos cordiales,
-El equipo de ventas
-"""
+        cuerpo = openaiservices.generar_cuerpo_correo(nombre_cliente)  
         
         return self.enviar_correo(
             destinatario=destinatario,
